@@ -1,0 +1,18 @@
+GET https://jsonplaceholder.typicode.com/todos/1/post
+Accept: application/json
+User-Agent: IntelliJ HTTP Client/Android Studio Narwhal | 2025.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+
+<> 2025-07-01T105125.404.json
+
+###
+
+GET https://jsonplaceholder.typicode.com/todos/1
+Accept: application/json
+User-Agent: IntelliJ HTTP Client/Android Studio Narwhal | 2025.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+
+<> 2025-07-01T105049.200.json
+
+###
+
