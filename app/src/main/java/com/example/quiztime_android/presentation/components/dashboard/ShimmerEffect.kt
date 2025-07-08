@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@Preview
+//@Preview
 @Composable
 fun ShimmerEffect(modifier: Modifier = Modifier, shimmerColor: Color = MaterialTheme.colorScheme.surface) {
 
@@ -49,9 +49,6 @@ fun ShimmerEffect(modifier: Modifier = Modifier, shimmerColor: Color = MaterialT
 
     Box(
         modifier = modifier
-            .fillMaxWidth()
-            .height(150.dp)
-            .background(MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Box(modifier = Modifier
             .matchParentSize()

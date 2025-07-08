@@ -1,4 +1,4 @@
-package com.example.quiztime_android.presentation.components.dashboard
+package com.synac.quiztime.presentation.dashboard.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,60 +31,42 @@ import com.example.quiztime_android.R
 import com.example.quiztime_android.presentation.theme.customBlue
 import com.example.quiztime_android.presentation.theme.customPink
 
-@Preview(showBackground = false)
 @Composable
-fun StatisticsCard(
+fun UserStatisticsCard(
     modifier: Modifier = Modifier,
-    questionAttempted: Int = 10,
-    correctAnswer: Int = 4
+    questionsAttempted: Int,
+    correctAnswers: Int
 ) {
+    val barProgress = if (questionsAttempted > 0) {
+        correctAnswers.toFloat() / questionsAttempted
+    } else 0f
 
-    val progress = if (questionAttempted > 0) {
-        correctAnswer.toFloat() / questionAttempted.toFloat()
-    } else {
-        0f
-    }
-
-    Card(modifier = modifier) {
+    Card(
+        modifier = modifier
+    ) {
         ProgressBar(
             modifier = Modifier
+                .padding(10.dp)
                 .fillMaxWidth()
-                .padding(16.dp)
                 .height(15.dp),
-            progress = progress
+            barProgress = barProgress
         )
-
-        Row(modifier = Modifier.padding(16.dp), horizontalArrangement = Arrangement.SpaceAround) {
-            Statistics(modifier = Modifier.weight(1f), value = questionAttempted, description = "Question Attempted")
-            Statistics(modifier = Modifier.weight(1f), value = correctAnswer, description = "Correct Answer")
-        }
-    }
-}
-
-@Composable
-private fun Statistics(
-    modifier: Modifier = Modifier,
-    value: Int = 23,
-    description: String = "",
-    iconResId: Int = R.drawable.ic_touch
-) {
-    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
-        Box(
+        Row(
             modifier = Modifier
-                .size(50.dp)
-                .clip(MaterialTheme.shapes.extraSmall)
-                .background(Color.White),
-            contentAlignment = Alignment.Center
+                .padding(10.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround
         ) {
-            Icon(modifier = Modifier.size(30.dp), painter = painterResource(id = iconResId), contentDescription = null)
-        }
-        Spacer(modifier = Modifier.width(12.dp))
-        Column() {
-            Text(
-                text = "$value",
-                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
+            Statistics(
+                value = questionsAttempted,
+                description = "Questions Attempted",
+                iconResId = R.drawable.ic_touch
             )
-            Text(text = description, style = MaterialTheme.typography.labelSmall)
+            Statistics(
+                value = correctAnswers,
+                description = "Correct Answers",
+                iconResId = R.drawable.ic_check_circle
+            )
         }
     }
 }
@@ -92,8 +74,8 @@ private fun Statistics(
 @Composable
 private fun ProgressBar(
     modifier: Modifier = Modifier,
-    gradientColors: List<Color> = listOf(customPink, customBlue),
-    progress: Float = 0.7f
+    barProgress: Float,
+    gradientColors: List<Color> = listOf(customPink, customBlue)
 ) {
     Box(
         modifier = modifier
@@ -102,18 +84,65 @@ private fun ProgressBar(
     ) {
         Box(
             modifier = Modifier
+                .fillMaxWidth(barProgress)
                 .fillMaxHeight()
-                .fillMaxWidth(progress)
                 .clip(MaterialTheme.shapes.extraSmall)
                 .background(Brush.linearGradient(gradientColors))
         )
         Box(
             modifier = Modifier
                 .padding(end = 5.dp)
-                .clip(CircleShape)
-                .size(5.dp)
                 .align(Alignment.CenterEnd)
+                .size(5.dp)
+                .clip(CircleShape)
                 .background(Brush.linearGradient(gradientColors))
         )
     }
+}
+
+@Composable
+private fun Statistics(
+    modifier: Modifier = Modifier,
+    value: Int,
+    description: String,
+    iconResId: Int
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(50.dp)
+                .clip(MaterialTheme.shapes.small)
+                .background(Color.White),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                painter = painterResource(iconResId),
+                contentDescription = description,
+                tint = MaterialTheme.colorScheme.secondary
+            )
+        }
+        Spacer(modifier = Modifier.width(10.dp))
+        Column {
+            Text(
+                text = "$value",
+                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
+            )
+            Text(
+                text = description,
+                style = MaterialTheme.typography.labelSmall
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewUserStatisticsCard() {
+    UserStatisticsCard(
+        questionsAttempted = 10,
+        correctAnswers = 7
+    )
 }
